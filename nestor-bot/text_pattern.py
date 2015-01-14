@@ -75,7 +75,7 @@ class TextPattern(object):
         resp = v[randint(0,len(v) -1)]
         if(relationship == problem):
             resp = ""
-        return "{0}:" + " " + pos + " #{1}. " + resp
+        return "{0}:" + " " + pos + " {1}. " + resp
     
     def get_problem_number(self,string):
         number = 0
