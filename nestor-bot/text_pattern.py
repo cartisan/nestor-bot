@@ -17,12 +17,15 @@ call_1 = ["You can borrow {1}]"]
 call_2 = ["Don't worry you'll live", "Don't worry you'll find another one"]
 call_3 = ["You'd outgrown them", "You were too good for them."]
 call_4 = ["There's always room with us", "There's always room in {1}","Join {1]!"]
-PROBLEM_TYPES = ["Marital Status",
-						 "Opponent",
-						 "Vehicle of Choice",
-						 "Weapon of Choice",
-						 "Creator",
-						 "Group Affiliation"]
+
+
+PROBLEM_TYPES = ["marital_status",
+                     "opponent",
+                     "vehicle_of_choice",
+                     "weapon_of_choice",
+                     "creator",
+                     "group_affiliation"]
+
 
 class TextPattern(object):
 
