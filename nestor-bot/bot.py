@@ -2,6 +2,8 @@ from cc_pattern.noc import noc as NOC
 from person import Person
 from text_pattern import TextPattern, PROBLEM_TYPES
 from random import randint
+#from tweeter import Tweeter
+import time
 
 
 PROBLEM_TYPES = set(PROBLEM_TYPES)
@@ -59,6 +61,7 @@ def generate_solution_tweet(partner,relationship, problem):
     prob = getattr(partner,problem)[0]
     return problem_text.format(tmp,prob)
 
+
 actor = choose_actor()
 problem = choose_problem(actor)
 
@@ -74,3 +77,11 @@ solution_tweet = generate_solution_tweet(partner,"opponent",problem_2)
 
 print problem_tweet
 print solution_tweet
+
+# To go online, make it True!
+#tweetme = False
+#if tweetme:
+    #twitt = Tweeter()
+    #twitt.tweetmessage(problem_tweet)
+   # time.sleep(30)
+    #twitt.tweetmessage(solution_tweet)
