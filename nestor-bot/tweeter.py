@@ -33,7 +33,7 @@ class Tweeter:
 
     def tweet_it_all(self, actor, first_tweet, replier, reply_tweet):
         the_id = self.tweet_distressed(first_tweet, actor)
-        time.sleep(30)
+        time.sleep(3)
         self.tweet_consoling(reply_tweet, the_id, actor, replier)
 
 
@@ -41,7 +41,7 @@ class Tweeter:
         return self.post_tweet(tweet)
 
     def tweet_consoling(self, tweet, reply_to_id, actor, replyer):
-        actor_account = actor.character[0].replace(" ", "")
+        actor_account = ''.join(e for e in actor.character[0] if e.isalnum())
         self.reply_tweet(tweet, reply_to_id, reply_user="@" + actor_account)
 
 
