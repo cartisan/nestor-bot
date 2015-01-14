@@ -68,7 +68,7 @@ print problem_tweet
 print solution_tweet
 
 # To go online, make it True!
-tweetme = False
+tweetme = True
 if tweetme:
     twitt = Tweeter()
     twitt.tweetmessage(problem_tweet)
