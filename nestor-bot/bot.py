@@ -124,9 +124,9 @@ def generate_solution_tweet(actor,partner,relationship,problem):
     
     tmp = partner.character[0]
     prob = getattr(partner,problem)[0]
-    actor_name = actor.character[0].replace(" ","")
+    actor_on_twitter = Tweeter().get_twitter_name(actor.character[0])
     
-    return problem_text.format(tmp,actor_name,prob)
+    return problem_text.format(tmp,actor_on_twitter,prob)
     
 def generate_problem_solution(actor,partner,actor_problem,partner_problem):
     if(problem == "vehicle_of_choice"):
