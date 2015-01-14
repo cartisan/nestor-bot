@@ -9,6 +9,7 @@ import time
 PROBLEM_TYPES = set(PROBLEM_TYPES)
 
 
+
 def choose_actor():
     people_count = len(NOC)
 
@@ -47,12 +48,22 @@ def choose_partner(actor, problem):
 
 def generate_problem_tweet(actor, problem):
     # call function from pattern module
-    return "{0}: I feel sad because of {1}.".format(actor.character[0],
-                                                    getattr(actor, problem)[0])
+    print problem
+    pattern = TextPattern()
+    problem_text = pattern.generate_problem_text(actor, problem)
+    return problem_text.format(actor.character[0],getattr(actor,problem)[0])
 
 
-def generate_solution_tweet(actor, partner, problem):
-    return "{0}: #{1}, Cheer up!".format(partner.character[0], actor.character[0].replace(" ", ""))
+def generate_solution_tweet(partner,relationship, problem):
+    print problem
+    pattern = TextPattern()
+    problem_text = pattern.generate_solution_text(relationship,problem)
+    
+    tmp = partner.character[0]
+    prob = getattr(partner,problem)[0]
+    
+    return problem_text.format(tmp,prob)
+
 
 actor = choose_actor()
 problem = choose_problem(actor)
@@ -61,7 +72,10 @@ problem = choose_problem(actor)
 problem_tweet = generate_problem_tweet(actor, problem)
 
 partner = choose_partner(actor, problem)
-solution_tweet = generate_solution_tweet(actor, partner, problem)
+
+problem_2 = choose_problem(partner)
+solution_tweet = generate_solution_tweet(partner,"opponent",problem)
+
 
 
 print problem_tweet
