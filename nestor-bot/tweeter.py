@@ -33,7 +33,7 @@ class Tweeter:
 
     def tweet_it_all(self, actor, first_tweet, replier, reply_tweet):
         the_id = self.tweet_distressed(first_tweet, actor)
-        time.sleep(3)
+        time.sleep(10)
         self.tweet_consoling(reply_tweet, the_id, actor, replier)
 
 
