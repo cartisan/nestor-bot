@@ -135,8 +135,8 @@ print call_repo[1]
 tweetme = True
 if tweetme:
     twitt = Tweeter()
-    distressed_tweet = problem_list[1]
-    consoling_tweet = solution_list[1]
+    distressed_tweet = problem_list[0]
+    consoling_tweet = solution_list[0]
     
     twitt.tweet_it_all(actor, distressed_tweet, partner, consoling_tweet)
     
