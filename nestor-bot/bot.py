@@ -1,4 +1,5 @@
 from cc_pattern.noc import noc as NOC
+from text_pattern import TextPattern
 from random import randint
 
 PROBLEM_TYPES = set(["Marital Status",
@@ -55,12 +56,15 @@ def choose_partner(actor, problem):
 
 def generate_problem_tweet(actor, problem):
     # call function from pattern module
-    return "{0}: I feel sad because of {1}.".format(actor["Character"],
-                                                    actor[problem])
+    pattern = TextPattern()
+    problem_text = pattern.generate_problem_text(actor, problem)
+    return problem_text.format(actor["Character"],actor[problem])
 
 
-def generate_solution_tweet(partner, problem):
-    return "{0}: Cheer up!".format(partner["Character"])
+def generate_solution_tweet(partner,relationship, problem):
+    pattern = TextPattern()
+    problem_text = pattern.generate_solution_text(relationship, problem)
+    return problem_text.format(partner["Character"],actor[problem])
 
 
 actor = choose_actor()
@@ -69,7 +73,7 @@ problem = choose_problem(actor)
 problem_tweet = generate_problem_tweet(actor, problem)
 
 partner = choose_partner(actor, problem)
-solution_tweet = generate_solution_tweet(partner, problem)
+solution_tweet = generate_solution_tweet(partner,"Opponent", problem)
 
 
 print problem_tweet
