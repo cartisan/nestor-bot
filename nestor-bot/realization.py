@@ -9,40 +9,49 @@ def allsynonyms(word, kind = NOUN):
 
 def realizevehicletext(vehicle):
     wrong = allsynonyms('broken', ADJECTIVE)
-    brokeverb = conjugate(choice(wrong), "3sgp")
-    return choice(("my {} is {}".format(vehicle.capitalize(), brokeverb),)).capitalize()
+    brokeverb = choice(wrong)
+    return choice(("my {} is {}".format(vehicle, brokeverb),))
 
 def realizeweapontext(weapon):
-    wrong = allsynonyms('broken', ADJECTIVE)
-    brokeverb = conjugate(choice(wrong), "3sgp")
-    return choice(("my {} is {}".format(weapon.capitalize(), brokeverb),))
+    wrong = allsynonyms('redundant', ADJECTIVE)
+    brokenverbinf = choice(wrong)
+    return choice(("my {} is {}".format(weapon, brokenverbinf),))
 
 def realizegrouptext(group):
     wrong = allsynonyms('expel', VERB)
-    expelverb = conjugate(choice(wrong), "3sgp")
-    return choice(("I've been {} from the {}".format(expelverb, group.capitalize()),))
+    expelverbinf = choice(wrong)
+    expelverb = ""
+    expelverbfin = ""
+    if(len(expelverb.split(" ")) == 1):
+        expelverb = conjugate(expelverbinf, "3sgp")
+        expelverbfin = expelverb
+    elif(len(expelverb.split(" ")) == 2):
+        expelverb2part = expelverb.split(" ")
+        expelverb = conjugate(expelverb2part[0], "3sgp")
+        expelverbfin = expelverb + " " + expelverb2part[1]
+    return choice(("I've been {} of {}".format(expelverbfin,group ),))
 
 
 sadness = allsynonyms('depressed', ADJECTIVE)
 def realizedepression():
-    augmentative = choice(("so", ""))
+    augmentative = choice(("really", ""))
     theproperty = choice(sadness)
-    return "I'm {} {}".format(augmentative, theproperty).capitalize()
+    return "I'm {} {}".format(augmentative, theproperty)
 
 def correctspaces(text):
     return re.sub(" +", " ", text)
 
 def realizetakevehicle(vehicle):
     takeword = choice(allsynonyms("borrow", VERB))
-    return "you can {} my {}!".format(takeword, vehicle.capitalize()).capitalize()
+    return "you can {} my {}!".format(takeword, vehicle.capitalize())
 
 def realizetakeweapon(vehicle):
     takeword = choice(allsynonyms("borrow", VERB))
-    return "you can {} my {}!".format(takeword, vehicle.capitalize()).capitalize()
+    return "you can {} my {}!".format(takeword, vehicle.capitalize())
 
 def realizejoingroup(group):
     joinword = choice(allsynonyms("join", VERB))
-    return "you can {} the {}!".format(joinword, group.capitalize()).capitalize()
+    return "you can {} the {}!".format(joinword, group.capitalize())
 
 def realizevehicle(sad, vehicle, friend, solution):
     texts = [realizedepression(), realizevehicletext(vehicle)]

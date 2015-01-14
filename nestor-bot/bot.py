@@ -1,10 +1,10 @@
-from cc_pattern.noc import noc as NOC
+from cc_pattern.noc import noc as NOC, parse, xlsx
+from pattern.db import pd
 from cc_pattern.noc import NAMES_INDEX, ROWS, assoc
 from person import Person
 from text_pattern import TextPattern, PROBLEM_TYPES
 from random import randint, choice
 from tweeter import Tweeter
-import time
 from realization import realizevehicle
 from realization import realizeweapon
 from realization import realizegroupmembership
@@ -21,6 +21,12 @@ def create_person_from_name(name):
             return Person(row)
     raise Exception("Name {} not found".format(name))
 
+def choose_one_random_actor():
+    people_count = len(NOC)
+    # choose random charcter
+    person_number = randint(0, people_count-1)
+    actor = Person(NOC[person_number])
+    return actor
 
 def choose_actor():
     # choose random charcter
@@ -43,7 +49,7 @@ def choose_problem(actor):
     possible_problems = list(PROBLEM_TYPES - missing_properties)
 
     problem = possible_problems[randint(0, len(possible_problems))-1]
-    return problem
+    return "vehicle_of_choice" #problem
 
 
 def partners_from_group(actor):
@@ -110,13 +116,33 @@ def choose_partner(actor, partners):
     partner = Person(choice(NOC))
     return partner
 
+#### helpers to special vehicle break down path
+def second_person_vehicle_weapon_breakdown(actor):
+    pers = choose_one_random_actor()
+    weapon = pers.weapon_of_choice[0]
+    vehicle = actor.vehicle_of_choice[0]
+    aff = get_affordance_of_vehicle(vehicle)
+    return "{3}: I feel sad because I was hit by {1}'s {2} while {4} my {0}".format(vehicle, pers.character[0], weapon, actor.character[0], aff)
+
+def get_affordance_of_vehicle(vehicle):
+    VEH = parse("Veale's vehicle fleet.xlsx")
+    for r in VEH:
+        if r["Vehicle"] == vehicle:
+            return r["Affordances"][0]
+    return "getting errors in"
+####
+
+
 
 def generate_problem_tweet(actor, problem):
     # call function from pattern module
     #print problem
-    pattern = TextPattern()
-    problem_text = pattern.generate_problem_text(actor, problem)
-    return problem_text.format(actor.character[0],getattr(actor,problem)[0])
+    if problem == "vehicle_of_choice" and randint(0,9)<3:
+        return second_person_vehicle_weapon_breakdown(actor)
+    else:
+        pattern = TextPattern()
+        problem_text = pattern.generate_problem_text(actor, problem)
+        return problem_text.format(actor.character[0],getattr(actor,problem)[0])
 
 
 def generate_solution_tweet(actor,partner,relationship,problem):
@@ -126,10 +152,9 @@ def generate_solution_tweet(actor,partner,relationship,problem):
 
     tmp = partner.character[0]
     prob = getattr(partner,problem)[0]
-    actor_name = actor.character[0].replace(" ","")
+    actor_on_twitter = Tweeter().get_twitter_name(actor.character[0])
 
-    return problem_text.format(tmp,actor_name,prob)
-
+    return problem_text.format(tmp,actor_on_twitter,prob)
 
 def generate_problem_solution(actor,partner,actor_problem,partner_problem):
     if(problem == "vehicle_of_choice"):
@@ -153,21 +178,18 @@ problem_2 = choose_problem(partner)
 solution_tweet = generate_solution_tweet(actor,partner,"opponent",problem)
 call_repo = generate_problem_solution(actor.character[0],getattr(actor,problem)[0],partner.character[0],getattr(partner,problem)[0])
 
-problem_list = [call_repo[1],solution_tweet]
-solution_list = [call_repo[0],problem_tweet]
+problem_list = [call_repo[1],problem_tweet]
+solution_list = [call_repo[0],solution_tweet]
 
-#print problem_tweet
-#print solution_tweet
-print call_repo[0]
-print call_repo[1]
+print problem_list[1]
+print solution_list[1]
 
 # To go online, make it True!
 tweetme = False
 if tweetme:
     twitt = Tweeter()
     distressed_tweet = problem_list[1]
-    did = twitt.post_tweet(distressed_tweet)
-    time.sleep(30)
-    cosoling_tweet = solution_list[1]
-    twitt.reply_tweet(cosoling_tweet, did)
+    consoling_tweet = solution_list[1]
+    
+    twitt.tweet_it_all(actor, distressed_tweet, partner, consoling_tweet)
     
