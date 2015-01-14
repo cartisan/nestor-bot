@@ -4,7 +4,6 @@ from person import Person
 from text_pattern import TextPattern, PROBLEM_TYPES
 from random import randint, choice
 from tweeter import Tweeter
-import time
 from realization import realizevehicle
 from realization import realizeweapon
 from realization import realizegroupmembership
@@ -139,6 +138,6 @@ if tweetme:
     distressed_tweet = problem_list[1]
     consoling_tweet = solution_list[1]
     
-    tweet_it_all(actor, distressed_tweet, partner, consoling_tweet)
+    twitt.tweet_it_all(actor, distressed_tweet, partner, consoling_tweet)
     
     

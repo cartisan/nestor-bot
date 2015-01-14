@@ -1,5 +1,5 @@
 # coding: utf8
-
+import time
 from pattern.web import URL, Twitter
 from botlicense import distressedbotrwlicense
 
@@ -32,16 +32,17 @@ class Tweeter:
                 print e.src.read()
 
     def tweet_it_all(self, actor, first_tweet, replier, reply_tweet):
-        the_id = tweet_distressed(first_tweet, actor)
+        the_id = self.tweet_distressed(first_tweet, actor)
         time.sleep(30)
-        tweet_consoling(reply_tweet, the_id, actor, replier)
+        self.tweet_consoling(reply_tweet, the_id, actor, replier)
 
 
     def tweet_distressed(self, tweet, actor):
-        return post_tweet(tweet)
+        return self.post_tweet(tweet)
 
     def tweet_consoling(self, tweet, reply_to_id, actor, replyer):
-        reply_tweet(tweet, reply_to_id, reply_user="@DistressedBot")
+        actor_account = actor.replace(" ", "")
+        self.reply_tweet(tweet, reply_to_id, reply_user="@" + actor_account)
 
 
                 
