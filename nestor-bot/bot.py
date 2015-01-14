@@ -160,8 +160,8 @@ print solution_list[1]
 tweetme = False
 if tweetme:
     twitt = Tweeter()
-    distressed_tweet = problem_list[0]
-    consoling_tweet = solution_list[0]
+    distressed_tweet = problem_list[1]
+    consoling_tweet = solution_list[1]
     
     twitt.tweet_it_all(actor, distressed_tweet, partner, consoling_tweet)
     
