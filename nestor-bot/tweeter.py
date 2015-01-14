@@ -36,12 +36,14 @@ class Tweeter:
         time.sleep(10)
         self.tweet_consoling(reply_tweet, the_id, actor, replier)
 
+    def get_twitter_name(self, name):
+        return ''.join(e for e in name if e.isalnum())
 
     def tweet_distressed(self, tweet, actor):
         return self.post_tweet(tweet)
 
     def tweet_consoling(self, tweet, reply_to_id, actor, replyer):
-        actor_account = ''.join(e for e in actor.character[0] if e.isalnum())
+        actor_account = self.get_twitter_name(actor.character[0])
         self.reply_tweet(tweet, reply_to_id, reply_user="@" + actor_account)
 
 
