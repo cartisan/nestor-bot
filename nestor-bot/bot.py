@@ -71,7 +71,7 @@ def generate_problem_solution(actor,partner,actor_problem,partner_problem):
     elif(problem == "weapon_of_choice"):
         sol_prob = realizeweapon(actor,partner,actor_problem,partner_problem)
     elif(problem == "group_affiliation"):
-        sol_prob = realizegroup(actor,partner,actor_problem,partner_problem)
+        sol_prob = realizegroupmembership(actor,partner,actor_problem,partner_problem)
     return sol_prob
 
 
