@@ -49,7 +49,7 @@ def choose_problem(actor):
     possible_problems = list(PROBLEM_TYPES - missing_properties)
 
     problem = possible_problems[randint(0, len(possible_problems))-1]
-    return "vehicle_of_choice" #problem
+    return problem
 
 
 def partners_from_group(actor):
@@ -185,7 +185,7 @@ print problem_list[1]
 print solution_list[1]
 
 # To go online, make it True!
-tweetme = False
+tweetme = True
 if tweetme:
     twitt = Tweeter()
     distressed_tweet = problem_list[1]
