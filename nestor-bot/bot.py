@@ -1,13 +1,7 @@
 from cc_pattern.noc import noc as NOC
-from text_pattern import TextPattern
+from text_pattern import TextPattern, PROBLEM_TYPES
 from random import randint
 
-PROBLEM_TYPES = set(["Marital Status",
-                     "Opponent",
-                     "Vehicle of Choice",
-                     "Weapon of Choice",
-                     "Creator",
-                     "Group Affiliation"])
 
 
 def choose_actor():
@@ -73,7 +67,8 @@ problem = choose_problem(actor)
 problem_tweet = generate_problem_tweet(actor, problem)
 
 partner = choose_partner(actor, problem)
-solution_tweet = generate_solution_tweet(partner,"Opponent", problem)
+problem_2 = choose_problem(partner)
+solution_tweet = generate_solution_tweet(partner,"Opponent", problem_2)
 
 
 print problem_tweet
