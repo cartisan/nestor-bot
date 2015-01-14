@@ -4,7 +4,7 @@ from text_pattern import TextPattern, PROBLEM_TYPES
 from random import randint
 from tweeter import Tweeter
 import time
-#import realization
+from realization import realizevehicle
 
 
 PROBLEM_TYPES = set(PROBLEM_TYPES)
@@ -65,10 +65,14 @@ def generate_solution_tweet(partner,relationship, problem):
     
     return problem_text.format(tmp,prob)
     
-#def generate_problem_solution(actor,partner,actor_problem,partner_problem):
-   # sol_prob = realizevehicle(actor,partner,actor_problem,partner_problem)
-   # print sol_prob[0]
-   # print sol_prob[1]
+def generate_problem_solution(actor,partner,actor_problem,partner_problem):
+    if(problem == "vehicle_of_choice"):
+        sol_prob = realizevehicle(actor,partner,actor_problem,partner_problem)
+    elif(problem == "weapon_of_choice"):
+        sol_prob = realizeweapon(actor,partner,actor_problem,partner_problem)
+    elif(problem == "group_affiliation"):
+        sol_prob = realizegroup(actor,partner,actor_problem,partner_problem)
+    return sol_prob
 
 
 actor = choose_actor()
@@ -81,11 +85,14 @@ partner = choose_partner(actor, problem)
 
 problem_2 = choose_problem(partner)
 solution_tweet = generate_solution_tweet(partner,"opponent",problem)
+call_repo = generate_problem_solution(actor.character[0],getattr(actor,problem)[0],partner.character[0],getattr(partner,problem)[0])
 
 
 
 print problem_tweet
 print solution_tweet
+print call_repo[0]
+print call_repo[1]
 
  #To go online, make it True!
 tweetme = True
