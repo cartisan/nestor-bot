@@ -2,7 +2,7 @@ import csv
 from random import randint
 
 negative_openers = ["Life sucks.","I'm sad.","What a day.","FML!","Don't you just hate it when this happens!","Bummer.","Totally gutted."]
-events_weapons = ["doesnt work anymore","failed me today","let me down today","just doesn't cut it anymore"]
+events_weapons = ["wont work anymore","failed me today","let me down today","just wont cut it anymore"]
 events_vehicles = ["broke down.", "has a flat battery.", "got towed."]
 events_partner = ["left me.","dumped me.","walked out on me."]
 events_opponent = ["beat me","vanquished me","died"]
