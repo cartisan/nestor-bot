@@ -124,8 +124,9 @@ print call_repo[1]
 tweetme = True
 if tweetme:
     twitt = Tweeter()
-    distressed_tweet = problem_list[randint(0, len(problem_list)-1)]
+    distressed_tweet = problem_list[1]
     did = twitt.post_tweet(distressed_tweet)
     time.sleep(30)
-    cosoling_tweet = solution_list[randint(0, len(solution_list)-1)]
+    cosoling_tweet = solution_list[1]
     twitt.reply_tweet(cosoling_tweet, did)
+    
