@@ -1,5 +1,7 @@
+import pdb
 from cc_pattern.noc import noc
 from cc_pattern.noc import NAMES_INDEX, ROWS, assoc
+#from cc_pattern.perception import semantic_similarity
 from person import Person
 
 
@@ -14,6 +16,27 @@ def create_person_from_name(name):
         if name == row["Character"]:
             return Person(row)
     raise Exception("Name {} not found".format(name))
+
+
+def has_partners(actor):
+    # only use relations that actor does have
+    possible_relations = RELATION_TYPES - actor.missing_attributes()
+
+    # for each relation get a list of names
+    #thus possible names is a list of lists
+    possible_names = [getattr(actor, relation)
+                      for relation in possible_relations]
+    #flatten the list of lists
+    possible_names = [item for sublist in possible_names
+                      for item in sublist]
+
+    possible_partners = []
+    for name in possible_names:
+        if name in NAMES_INDEX.keys():
+            partner = create_person_from_name(name)
+            possible_partners.append(partner)
+
+    return possible_partners
 
 
 def choose_partner(actor, problem):
@@ -35,6 +58,8 @@ def choose_partner(actor, problem):
             possible_partners.append(partner)
 
     return possible_partners
+
+
 
 linked_people = []
 for pers_dat in noc:
