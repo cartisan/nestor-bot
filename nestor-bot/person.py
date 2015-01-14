@@ -9,8 +9,17 @@ class Person:
                 for v in value:
                     if v:
                         newvalue.append(v)
-            elif type(value) == str:
+            elif type(value) == str and value:
                 newvalue.append(value)
             else:
                 print "Value " + value + " is neither list nor string"
             setattr(self, k3, newvalue)
+
+    def missing_attributes(self):
+        # find missing entries:
+        missing_properties = set()
+        for k, v in self.__dict__.items():
+            if not v:
+                missing_properties.add(k)
+
+        return missing_properties
