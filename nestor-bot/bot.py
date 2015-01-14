@@ -1,6 +1,10 @@
 from cc_pattern.noc import noc as NOC
+from person import Person
 from text_pattern import TextPattern, PROBLEM_TYPES
 from random import randint
+
+
+PROBLEM_TYPES = set(PROBLEM_TYPES)
 
 
 
@@ -10,22 +14,14 @@ def choose_actor():
     # choose random charcter
     person_number = randint(0, people_count-1)
 
-    actor = NOC[person_number]
+    actor = Person(NOC[person_number])
     return actor
 
 
 # TODO: Repeat until one is found?
 def choose_problem(actor):
     # choose random problem
-    # find missing entries:
-    missing_properties = set()
-    for k, v in actor.items():
-        if type(v) == list:
-            if not v[0]:
-                missing_properties.add(k)
-        else:
-            if not v:
-                missing_properties.add(k)
+    missing_properties = actor.missing_attributes()
 
     # problems possible for our character
     possible_problems = list(PROBLEM_TYPES - missing_properties)
@@ -43,7 +39,7 @@ def choose_partner(actor, problem):
         # choose random charcter
         person_number = randint(0, people_count-1)
 
-        partner = NOC[person_number]
+        partner = Person(NOC[person_number])
 
     return partner
 
@@ -52,23 +48,28 @@ def generate_problem_tweet(actor, problem):
     # call function from pattern module
     pattern = TextPattern()
     problem_text = pattern.generate_problem_text(actor, problem)
-    return problem_text.format(actor["Character"],actor[problem])
+    return problem_text.format(actor.character[0],getattr(actor,problem)[0])
 
 
 def generate_solution_tweet(partner,relationship, problem):
     pattern = TextPattern()
-    problem_text = pattern.generate_solution_text(relationship, problem)
-    return problem_text.format(partner["Character"],actor[problem])
-
+    problem_text = pattern.generate_solution_text(relationship, getattr(partner,problem)[0])
+    
+    tmp = partner.character[0]
+    prob = getattr(partner,problem)[0]
+    return problem_text.format(tmp,prob)
 
 actor = choose_actor()
 problem = choose_problem(actor)
+
 #print problem
 problem_tweet = generate_problem_tweet(actor, problem)
 
 partner = choose_partner(actor, problem)
+
 problem_2 = choose_problem(partner)
-solution_tweet = generate_solution_tweet(partner,"Opponent", problem_2)
+solution_tweet = generate_solution_tweet(partner,"opponent",problem_2)
+
 
 
 print problem_tweet
