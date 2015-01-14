@@ -5,7 +5,8 @@ from random import randint
 from tweeter import Tweeter
 import time
 from realization import realizevehicle
-
+from realization import realizeweapon
+from realization import realizegroupmembership
 
 PROBLEM_TYPES = set(PROBLEM_TYPES)
 
@@ -55,15 +56,16 @@ def generate_problem_tweet(actor, problem):
     return problem_text.format(actor.character[0],getattr(actor,problem)[0])
 
 
-def generate_solution_tweet(partner,relationship, problem):
+def generate_solution_tweet(actor,partner,relationship,problem):
     print problem
     pattern = TextPattern()
     problem_text = pattern.generate_solution_text(relationship,problem)
     
     tmp = partner.character[0]
     prob = getattr(partner,problem)[0]
+    actor_name = actor.character[0].replace(" ","")
     
-    return problem_text.format(tmp,prob)
+    return problem_text.format(tmp,actor_name,prob)
     
 def generate_problem_solution(actor,partner,actor_problem,partner_problem):
     if(problem == "vehicle_of_choice"):
@@ -84,10 +86,11 @@ problem_tweet = generate_problem_tweet(actor, problem)
 partner = choose_partner(actor, problem)
 
 problem_2 = choose_problem(partner)
-solution_tweet = generate_solution_tweet(partner,"opponent",problem)
+solution_tweet = generate_solution_tweet(actor,partner,"opponent",problem)
 call_repo = generate_problem_solution(actor.character[0],getattr(actor,problem)[0],partner.character[0],getattr(partner,problem)[0])
 
-
+problem_list = [call_repo[1],solution_tweet]
+solution_list = [call_repo[0],problem_tweet]
 
 print problem_tweet
 print solution_tweet
@@ -98,6 +101,6 @@ print call_repo[1]
 tweetme = True
 if tweetme:
     twitt = Tweeter()
-    twitt.tweetmessage(problem_tweet)
+    twitt.tweetmessage(problem_list[randint(0, len(problem_list)-1)])
     time.sleep(30)
-    twitt.tweetmessage(solution_tweet)
+    twitt.tweetmessage(solution_list[randint(0, len(solution_list)-1)])

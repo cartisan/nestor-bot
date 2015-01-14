@@ -8,17 +8,17 @@ events_partner = ["left me.","dumped me.","walked out on me."]
 events_opponent = ["beat me","vanquished me","died"]
 events_creator = ["died","passed away","abandoned me"]
 events_group = ["kicked me out","got rid of me","abandoned me","put me out to pasture", "retired me"]
-positive_responses = ["Chillax!","Don't worry.","Take it easy :)","Calm down :)","Its ok.","No worries.","Don't sweat it."]
+positive_responses = ["Chillax!","Don't worry","Take it easy :)","Calm down :)","Its ok","No worries","Don't sweat it"]
 response_weapons = ["broke down","failed"]
 response_vehicles = ["broke down", "has a flat battery", "got towed"]
 response_partner = ["left me","dumped me","walked out on me"]
 response_opponent = ["beat me","vanquished me"," died"]
 response_creator = [" died"," passed away"," abandoned me"]
 call_0 = ["Mismatch"]
-call_1 = ["You can borrow my {1}"]
+call_1 = ["You can borrow my {2}"]
 call_2 = ["Don't worry you'll live", "Don't worry you'll find another one"]
 call_3 = ["You'd outgrown them", "You were too good for them.","You were a big fish in a small pond"]
-call_4 = ["There's always room with us at {1}", "There's always room in {1}","Join {1]!","{1} always has a place for you ;)","I hear {1} is hiring ;)"]
+call_4 = ["There's always room with us at {2}", "There's always room in {2}","Join {2]!","{2} always has a place for you ;)","I hear {1} is hiring ;)"]
 PROBLEM_TYPES = ["opponent",
                      "vehicle_of_choice",
                      "weapon_of_choice",
@@ -75,7 +75,7 @@ class TextPattern(object):
         resp = v[randint(0,len(v) -1)]
         if(relationship == problem):
             resp = ""
-        return "{0}:" + " " + pos + " " + resp
+        return "{0}:" + " " + pos + " #{1}. " + resp
     
     def get_problem_number(self,string):
         number = 0
