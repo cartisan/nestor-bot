@@ -58,3 +58,5 @@ pattern/
 
 *.ipynb
 *.ipynb*
+
+botlicense.py
