@@ -22,15 +22,17 @@ def create_person_from_name(name):
     raise Exception("Name {} not found".format(name))
 
 
-
 def choose_actor():
-    people_count = len(NOC)
-
     # choose random charcter
-    person_number = randint(0, people_count-1)
+    partners = []
+    while not partners:
+        actor = Person(choice(NOC))
+        print("bot.py: Trying if {} has enough partners."
+              .format(actor.character))
+        partners = calculate_partners(actor)
 
-    actor = Person(NOC[person_number])
-    return actor
+    print "bot.py: Yes, he does!"
+    return actor, partners
 
 
 def choose_problem(actor):
@@ -44,7 +46,7 @@ def choose_problem(actor):
     return problem
 
 
-def choose_partner(actor, problem):
+def calculate_partners(actor):
     # only use relations that actor does have
     possible_relations = RELATION_TYPES - actor.missing_attributes()
 
@@ -62,6 +64,16 @@ def choose_partner(actor, problem):
             partner = create_person_from_name(name)
             possible_partners.append(partner)
 
+    return possible_partners
+
+
+def choose_partner(actor, partners):
+    possible_partners = partners
+
+    #add most similar character
+    #print "bot.py: Start similarity computation for actor"
+    #similar_partners = semantic_similarity(actor.character[0])
+
     print ("bot.py: num of partners is {}".format(len(possible_partners)))
 
     if possible_partners:
@@ -73,14 +85,14 @@ def choose_partner(actor, problem):
 
 def generate_problem_tweet(actor, problem):
     # call function from pattern module
-    print problem
+    #print problem
     pattern = TextPattern()
     problem_text = pattern.generate_problem_text(actor, problem)
     return problem_text.format(actor.character[0],getattr(actor,problem)[0])
 
 
 def generate_solution_tweet(actor,partner,relationship,problem):
-    print problem
+    #print problem
     pattern = TextPattern()
     problem_text = pattern.generate_solution_text(relationship,problem)
     
@@ -100,13 +112,13 @@ def generate_problem_solution(actor,partner,actor_problem,partner_problem):
     return sol_prob
 
 
-actor = choose_actor()
+actor, partners = choose_actor()
 problem = choose_problem(actor)
 
 #print problem
 problem_tweet = generate_problem_tweet(actor, problem)
 
-partner = choose_partner(actor, problem)
+partner = choose_partner(actor, partners)
 
 problem_2 = choose_problem(partner)
 solution_tweet = generate_solution_tweet(actor,partner,"opponent",problem)
@@ -115,8 +127,8 @@ call_repo = generate_problem_solution(actor.character[0],getattr(actor,problem)[
 problem_list = [call_repo[1],solution_tweet]
 solution_list = [call_repo[0],problem_tweet]
 
-print problem_tweet
-print solution_tweet
+#print problem_tweet
+#print solution_tweet
 print call_repo[0]
 print call_repo[1]
 
