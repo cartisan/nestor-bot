@@ -236,6 +236,10 @@ def nearest_neighbors(node, candidates=[], k=3):
 # For example, what person is most similar to Darth Vader?
 # This can take some time to compute (winners are H. P. Lovecraft and Adolf Hitler).
 
+
+def semantic_similarity(name):
+    return nearest_neighbors(g[name], field(g["person"]))[:3]
+
 print
 print "What persons are most similar to Darth Vader?"
 print "---------------------------------------------"

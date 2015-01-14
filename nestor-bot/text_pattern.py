@@ -85,7 +85,7 @@ class TextPattern(object):
         return number
     
     def get_mapping(self,x,y):
-        print self.mapping[x][y]
+        #print self.mapping[x][y]
         return self.mapping[x][y]
    # def get_prefix(self,x):
     	
