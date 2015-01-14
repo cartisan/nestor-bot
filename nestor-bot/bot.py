@@ -2,7 +2,7 @@ from cc_pattern.noc import noc as NOC
 from person import Person
 from text_pattern import TextPattern, PROBLEM_TYPES
 from random import randint
-#from tweeter import Tweeter
+from tweeter import Tweeter
 import time
 
 
@@ -48,17 +48,20 @@ def choose_partner(actor, problem):
 
 def generate_problem_tweet(actor, problem):
     # call function from pattern module
+    print problem
     pattern = TextPattern()
     problem_text = pattern.generate_problem_text(actor, problem)
     return problem_text.format(actor.character[0],getattr(actor,problem)[0])
 
 
 def generate_solution_tweet(partner,relationship, problem):
+    print problem
     pattern = TextPattern()
-    problem_text = pattern.generate_solution_text(relationship, getattr(partner,problem)[0])
+    problem_text = pattern.generate_solution_text(relationship,problem)
     
     tmp = partner.character[0]
     prob = getattr(partner,problem)[0]
+    
     return problem_text.format(tmp,prob)
 
 
@@ -71,17 +74,17 @@ problem_tweet = generate_problem_tweet(actor, problem)
 partner = choose_partner(actor, problem)
 
 problem_2 = choose_problem(partner)
-solution_tweet = generate_solution_tweet(partner,"opponent",problem_2)
+solution_tweet = generate_solution_tweet(partner,"opponent",problem)
 
 
 
 print problem_tweet
 print solution_tweet
 
-# To go online, make it True!
-#tweetme = False
-#if tweetme:
-    #twitt = Tweeter()
-    #twitt.tweetmessage(problem_tweet)
-   # time.sleep(30)
-    #twitt.tweetmessage(solution_tweet)
+ #To go online, make it True!
+tweetme = True
+if tweetme:
+    twitt = Tweeter()
+    twitt.tweetmessage(problem_tweet)
+    time.sleep(30)
+    twitt.tweetmessage(solution_tweet)
