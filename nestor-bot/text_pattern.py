@@ -1,7 +1,8 @@
 import csv
+import random
 
-negative_openers = ["Life sucks. ","I'm sad because ","What a day. ","FML"]
-events_weapons = ["lost my","failed"]
+negative_openers = ["Life sucks. ","I'm sad because ","What a day. ","FML","Don't you just hate it when this happens!"]
+events_weapons = ["is lost","failed"]
 events_vehicles = ["broke down", "has a flat battery", "got towed"]
 events_partner = ["left me","dumped me","walked out on me"]
 events_opponent = ["beat me","vanquished me","died"]
@@ -17,7 +18,7 @@ call_0 = ["Mismatch"]
 call_1 = ["You can borrow my {1}]"]
 call_2 = ["Don't worry you'll live", "Don't worry you'll find another one"]
 call_3 = ["You'd outgrown them", "You were too good for them."]
-call_4 = ["There's always room with us", "There's always room in {1}","Join {1]!"]
+call_4 = ["There's always room with us", "There's always room in {1}","Join {1]!","{1} always has a place for you ;)"]
 PROBLEM_TYPES = set(["Marital Status",
                      "Opponent",
                      "Vehicle of Choice",
@@ -32,6 +33,8 @@ class TextPattern(object):
        # self.worddata = list(csv.reader(csvfile, delimiter=',', quotechar='"'))
         self.probs = list(PROBLEM_TYPES)
         self.call = dict()
+        self.rand = new Random()
+        self.rand.seed(4546)
         self.response = dict()
         self.call[self.probs[0]] = events_partner
         self.call[self.probs[1]] = events_opponent  
@@ -50,7 +53,9 @@ class TextPattern(object):
     
     def generate_problem_text(self,subject,problem):
     #Get relationship between subject and object
-        return "{0}:" + negative_openers[1] + "my " + "{1}" + self.call[problem][0]
+        v = self.call[problem]
+        open = negative_opener[random_int(len(negative_openers))]
+        return "{0}:" + negative_openers[1] + "my " + "{1}" + v[random_int(len(v))]
     
 
     def generate_solution_text(self,relationship,problem):
@@ -70,3 +75,5 @@ class TextPattern(object):
     
     def get_mapping(self,x,y):
         return self.mapping[x][y]
+    def random_int(size)
+        return random.randint(0, size)
