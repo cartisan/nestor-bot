@@ -11,8 +11,6 @@ class Person:
                         newvalue.append(v)
             elif type(value) == str and value:
                 newvalue.append(value)
-            else:
-                print "Value " + value + " is neither list nor string"
             setattr(self, k3, newvalue)
 
     def missing_attributes(self):
