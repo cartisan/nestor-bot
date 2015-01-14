@@ -30,6 +30,20 @@ class Tweeter:
                 print e
                 print e.src
                 print e.src.read()
+
+    def tweet_it_all(self, actor, first_tweet, replier, reply_tweet):
+        the_id = tweet_distressed(first_tweet, actor)
+        time.sleep(30)
+        tweet_consoling(reply_tweet, the_id, actor, replier)
+
+
+    def tweet_distressed(self, tweet, actor):
+        return post_tweet(tweet)
+
+    def tweet_consoling(self, tweet, reply_to_id, actor, replyer):
+        reply_tweet(tweet, reply_to_id, reply_user="@DistressedBot")
+
+
                 
     def post_tweet(self, tweet):
         if len(tweet) <= 140:
@@ -73,59 +87,59 @@ class Tweeter:
                 print e.src.read()
 
     def get_replies(reply_id):
-	import json
-	from pattern.web import URL, Twitter
+        import json
+        from pattern.web import URL, Twitter
 
-	reply_id = reply_id - 1
-	url = URL("https://api.twitter.com/1.1/statuses/mentions_timeline.json", method="get", query={"since_id":reply_id})
+        reply_id = reply_id - 1
+        url = URL("https://api.twitter.com/1.1/statuses/mentions_timeline.json", method="get", query={"since_id":reply_id})
 
-	twitter = Twitter(license=distressedbotrwlicense)
-	url = twitter._authenticate(url)
+        twitter = Twitter(license=distressedbotrwlicense)
+        url = twitter._authenticate(url)
 
-	user_replies = {}
-	bot_replies = {}
-	try:
-	    data = json.loads(url.open().read())
-	    for reply in data:
-	    	name = reply["user"]["name"].encode('utf-8').strip()
-	    	text = reply["text"].replace("@BotsVsQuotes","").strip()
-	    	if name == "BotsVsQuotes":
-	    		#bot quotes
-	    		text = text.split(":") 
-	    		char_name = text[0]
-	    		bot_replies[char_name] = "".join(text[1:]).strip()
-	    	else:
-	    		#user quotes
-	    		user_replies[name] = text 
-	except Exception as e:
-	    print e
-	    print e.src
-	    print e.src.read()
-	    return {}, {}
-	return bot_replies, user_replies
+        user_replies = {}
+        bot_replies = {}
+        try:
+            data = json.loads(url.open().read())
+            for reply in data:
+                name = reply["user"]["name"].encode('utf-8').strip()
+                text = reply["text"].replace("@BotsVsQuotes","").strip()
+                if name == "BotsVsQuotes":
+                    #bot quotes
+                    text = text.split(":") 
+                    char_name = text[0]
+                    bot_replies[char_name] = "".join(text[1:]).strip()
+                else:
+                    #user quotes
+                    user_replies[name] = text 
+        except Exception as e:
+            print e
+            print e.src
+            print e.src.read()
+            return {}, {}
+        return bot_replies, user_replies
 
 
 
     if __name__ == '__main__':
-	import json
-	from pattern.web import URL, Twitter
+        import json
+        from pattern.web import URL, Twitter
 
-	# Tweet to post:
-	tweet = "test tweet"
+        # Tweet to post:
+        tweet = "test tweet"
 
-	url = URL("https://api.twitter.com/1.1/statuses/update.json", method="post", query={"status": tweet})
+        url = URL("https://api.twitter.com/1.1/statuses/update.json", method="post", query={"status": tweet})
 
-	twitter = Twitter(license=distressedbotrwlicense)
+        twitter = Twitter(license=distressedbotrwlicense)
 
-	url = twitter._authenticate(url)
+        url = twitter._authenticate(url)
 
 
-#	try:
-#	    # Send the post request.
-#	    a = json.loads(url.open().read())
-#	    reply_id = a["id"]
-#	    print reply_id
-#	except Exception as e:
-#	    print e
-#	    print e.src
-#	    print e.src.read()
+    #   try:
+    #       # Send the post request.
+    #       a = json.loads(url.open().read())
+    #       reply_id = a["id"]
+    #       print reply_id
+    #   except Exception as e:
+    #       print e
+    #       print e.src
+    #       print e.src.read()
