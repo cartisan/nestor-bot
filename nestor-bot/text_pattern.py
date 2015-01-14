@@ -33,11 +33,11 @@ class TextPattern(object):
         self.call = dict()
         self.response = dict()
        # self.call[self.probs[0]] = events_partner
-        self.call[self.probs[0]] = events_opponent
-        self.call[self.probs[1]] = events_vehicles
-        self.call[self.probs[2]] = events_weapons
-        self.call[self.probs[3]] = events_creator
-        self.call[self.probs[4]] = events_group
+        #self.call[self.probs[0]] = events_opponent
+        self.call[self.probs[0]] = events_vehicles
+        self.call[self.probs[1]] = events_weapons
+       # self.call[self.probs[3]] = events_creator
+        self.call[self.probs[2]] = events_group
         self.response[0] = call_0
         self.response[1] = call_1
         self.response[2] = call_2
