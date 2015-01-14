@@ -163,6 +163,7 @@ def freq(col, top=10):
 # ------------------------------------------------------------------------------------
 
 NOC = "Veale's The NOC List.xlsx"
+
 # Character, Gender, Address 1, Address 2, Address 3, Politics, Marital Status, 
 # Opponent, Typical Activity, Vehicle of Choice, Weapon of Choice, Seen Wearing,
 # Domains, Genres, Fictive Status, Portrayed By, Creator, Creation, Group Affiliation,
@@ -181,6 +182,8 @@ def parse(path):
     return rows
 
 noc = parse(NOC)
+ROWS = xlsx(pd(NOC))
+NAMES_INDEX = index(ROWS[1:], 0, unique=False)
 # ------------------------------------------------------------------------------------
 # Examples of use.
 
