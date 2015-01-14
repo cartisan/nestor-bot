@@ -124,6 +124,6 @@ print call_repo[1]
 tweetme = True
 if tweetme:
     twitt = Tweeter()
-    twitt.tweetmessage(problem_list[1])
+    twitt.tweetmessage(problem_list[randint(0,len(problem_list)-1)])
     time.sleep(30)
-    twitt.tweetmessage(solution_list[1])
+    twitt.tweetmessage(solution_list[randint(0,len(solution_list) -1)])

@@ -19,10 +19,8 @@ call_1 = ["You can borrow my {2}","I'll lend you my {2}", "You can take a loan o
 call_2 = ["Don't worry you'll live", "Don't worry you'll find another one"]
 call_3 = ["You'd outgrown them", "You were too good for them.","You were a big fish in a small pond"]
 call_4 = ["There's always room with us at {2}", "There's always room in {2}","Join {2]!","{2} always has a place for you ;)","I hear {1} is hiring ;)"]
-PROBLEM_TYPES = ["opponent",
-                     "vehicle_of_choice",
+PROBLEM_TYPES = [ "vehicle_of_choice",
                      "weapon_of_choice",
-                     "creator",
                      "group_affiliation"]
 
 
