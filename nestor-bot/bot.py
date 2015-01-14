@@ -152,7 +152,7 @@ def generate_solution_tweet(actor,partner,relationship,problem):
 
     tmp = partner.character[0]
     prob = getattr(partner,problem)[0]
-    actor_on_twitter = Tweeter().get_twitter_name(actor.character[0])
+    actor_on_twitter = "@" + Tweeter().get_twitter_name(actor.character[0])
 
     return problem_text.format(tmp,actor_on_twitter,prob)
 
