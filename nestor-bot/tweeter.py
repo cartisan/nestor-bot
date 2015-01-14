@@ -41,7 +41,7 @@ class Tweeter:
         return self.post_tweet(tweet)
 
     def tweet_consoling(self, tweet, reply_to_id, actor, replyer):
-        actor_account = actor.replace(" ", "")
+        actor_account = actor.character[0].replace(" ", "")
         self.reply_tweet(tweet, reply_to_id, reply_user="@" + actor_account)
 
 
