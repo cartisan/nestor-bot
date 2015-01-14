@@ -4,6 +4,7 @@ from text_pattern import TextPattern, PROBLEM_TYPES
 from random import randint
 from tweeter import Tweeter
 import time
+#import realization
 
 
 PROBLEM_TYPES = set(PROBLEM_TYPES)
@@ -63,6 +64,11 @@ def generate_solution_tweet(partner,relationship, problem):
     prob = getattr(partner,problem)[0]
     
     return problem_text.format(tmp,prob)
+    
+#def generate_problem_solution(actor,partner,actor_problem,partner_problem):
+   # sol_prob = realizevehicle(actor,partner,actor_problem,partner_problem)
+   # print sol_prob[0]
+   # print sol_prob[1]
 
 
 actor = choose_actor()
