@@ -46,7 +46,7 @@ class TextPattern(object):
         self.response[2] = call_2
         self.response[3]= call_3
         self.response[4] = call_4
-        self.mapping = [[0,0,0,0],[0,0,0,0],[1,1,1,1],[2,1,1,1]]
+        self.mapping = [[0,0,0,0],[0,0,0,0],[1,1,3,4],[2,1,1,1]]
     def get_answer_string(self,subject,problem):
         return self.response[self.get_mapping(self.get_problem_number(subject),self.get_problem_number(problem))]
     
