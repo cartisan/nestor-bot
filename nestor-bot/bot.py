@@ -140,4 +140,3 @@ if tweetme:
     
     twitt.tweet_it_all(actor, distressed_tweet, partner, consoling_tweet)
     
-    
