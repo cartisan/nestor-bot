@@ -38,7 +38,7 @@ def choose_actor():
         partners = calculate_partners(actor)
 
     print "bot.py: Yes, he does!"
-    return actor, partners
+    return actor
 
 
 def choose_problem(actor):
@@ -49,7 +49,7 @@ def choose_problem(actor):
     possible_problems = list(PROBLEM_TYPES - missing_properties)
 
     problem = possible_problems[randint(0, len(possible_problems))-1]
-    return "vehicle_of_choice" #problem
+    return problem
 
 
 def partners_from_group(actor):
@@ -76,7 +76,7 @@ def partners_from_group(actor):
     return relevant_partners
 
 
-def calculate_partners(actor):
+def calculate_partners(actor, problem=None):
     # only use relations that actor does have
     possible_relations = RELATION_TYPES - actor.missing_attributes()
 
@@ -94,15 +94,15 @@ def calculate_partners(actor):
             partner = create_person_from_name(name)
             possible_partners.append(partner)
 
-    if actor.group_affiliation:
+    if actor.group_affiliation and not problem == "group_affiliation":
         more_peeps = partners_from_group(actor)
         possible_partners += more_peeps
 
     return possible_partners
 
 
-def choose_partner(actor, partners):
-    possible_partners = partners
+def choose_partner(actor, problem):
+    possible_partners = calculate_partners(actor, problem)
 
     #add most similar character
     #print "bot.py: Start similarity computation for actor"
@@ -166,13 +166,13 @@ def generate_problem_solution(actor,partner,actor_problem,partner_problem):
     return sol_prob
 
 
-actor, partners = choose_actor()
+actor = choose_actor()
 problem = choose_problem(actor)
 
 #print problem
 problem_tweet = generate_problem_tweet(actor, problem)
 
-partner = choose_partner(actor, partners)
+partner = choose_partner(actor, problem)
 
 problem_2 = choose_problem(partner)
 solution_tweet = generate_solution_tweet(actor,partner,"opponent",problem)
