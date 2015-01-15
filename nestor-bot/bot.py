@@ -184,17 +184,13 @@ solution_tweet = generate_solution_tweet(actor,
                                          problem)
 
 # carlos synonym stuff
-try:
-    call_repo = generate_problem_solution(actor.character[0],
+call_repo = generate_problem_solution(actor.character[0],
                                       getattr(actor, problem)[0],
                                       partner.character[0],
                                       getattr(partner, problem)[0])
-except:
-    pdb.set_trace() ############################## Breakpoint ##############################
 
-
-problem_list = [call_repo[0],problem_tweet]
-solution_list = [call_repo[1],solution_tweet]
+problem_list = [call_repo[0], problem_tweet]
+solution_list = [call_repo[1], solution_tweet]
 
 print problem_tweet
 print solution_tweet
