@@ -12,6 +12,8 @@ from realization import realizegroupmembership
 from copy import copy
 import time
 
+TWEET = True
+TWEET_NUM = 5
 PROBLEM_TYPES = set(PROBLEM_TYPES)
 RELATION_TYPES = set(["opponent",
                       "creator",
@@ -216,14 +218,14 @@ def generate_problem_solution(actor, partner, actor_problem, partner_problem):
         sol_prob = realizegroupmembership(actor, partner, actor_problem, partner_problem)
     return sol_prob
 
-for i in range(50):
+for i in range(TWEET_NUM):
     actor = choose_actor()
     problem = choose_problem(actor)
     partner = choose_partner(actor, problem)
 
 
     # With some probability we choose text pattern
-    if randint(0,9) < 5 or problem == "opponent" or not getattr(partner,problem) or not getattr(actor,problem):
+    if randint(0,5) < 0 or problem == "opponent" or not getattr(partner,problem) or not getattr(actor,problem):
         problem_tweet = generate_problem_tweet(actor, problem)
         solution_tweet = generate_solution_tweet(actor,partner,"opponent",problem)
         #print "text pattern"
@@ -238,7 +240,7 @@ for i in range(50):
     print " "
 
     # To go online, make it True!
-    tweetme = False
+    tweetme = TWEET
     if tweetme:
         twitt = Tweeter()
         distressed_tweet = problem_tweet

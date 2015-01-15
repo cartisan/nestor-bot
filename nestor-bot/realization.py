@@ -51,7 +51,7 @@ def realizetakeweapon(vehicle):
 
 def realizejoingroup(group):
     joinword = choice(allsynonyms("join", VERB))
-    return "you can {} the {}!".format(joinword, group.lower())
+    return "you can {} {}!".format(joinword, group.lower())
 
 def realizevehicle(sad, vehicle, friend, solution):
     texts = [realizedepression(), realizevehicletext(vehicle)]
