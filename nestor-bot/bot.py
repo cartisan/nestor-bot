@@ -1,3 +1,4 @@
+import pdb
 from cc_pattern.noc import noc as NOC, parse, xlsx
 from pattern.db import pd
 from cc_pattern.noc import NAMES_INDEX, ROWS, assoc
@@ -147,6 +148,7 @@ def generate_problem_tweet(actor, problem):
         return second_person_vehicle_weapon_breakdown(actor)
     else:
         pattern = TextPattern()
+        print "problem_tweet", actor.character, problem
         problem_text = pattern.generate_problem_text(actor, problem)
         return problem_text.format(actor.character[0],getattr(actor,problem)[0])
 
@@ -168,16 +170,15 @@ def generate_solution_tweet(actor,partner,relationship,problem):
 
     return problem_text.format(tmp,prob)
 
-def generate_problem_solution(actor,partner,actor_problem,partner_problem):
+
+def generate_problem_solution(actor, partner, actor_problem, partner_problem):
+    sol_prob = (None, None)
     if(problem == "vehicle_of_choice"):
-        sol_prob = realizevehicle(actor,partner,actor_problem,partner_problem)
+        sol_prob = realizevehicle(actor, partner, actor_problem, partner_problem)
     elif(problem == "weapon_of_choice"):
-        sol_prob = realizeweapon(actor,partner,actor_problem,partner_problem)
+        sol_prob = realizeweapon(actor, partner, actor_problem, partner_problem)
     elif(problem == "group_affiliation"):
-        sol_prob = realizegroupmembership(actor,partner,actor_problem,partner_problem)
-    else:
-        print "Error: no such problem for Carlos code"
-        return "nubbe"
+        sol_prob = realizegroupmembership(actor, partner, actor_problem, partner_problem)
     return sol_prob
 
 
@@ -186,7 +187,7 @@ problem = choose_problem(actor)
 partner = choose_partner(actor, problem)
 
 # With some probability we choose text pattern
-if randint(0,9) < 6 or problem == "opponent":
+if randint(0,9) < 5 or problem == "opponent":
     problem_tweet = generate_problem_tweet(actor, problem)
     solution_tweet = generate_solution_tweet(actor,partner,"opponent",problem)
     print "text pattern"
@@ -195,15 +196,15 @@ else:
     [problem_tweet, solution_tweet] = generate_problem_solution(actor.character[0],getattr(actor,problem)[0],partner.character[0],getattr(partner,problem)[0])
     print "realization"
 
+
 print problem_tweet
 print solution_tweet
 
 # To go online, make it True!
-tweetme = True
+tweetme = False
 if tweetme:
     twitt = Tweeter()
     distressed_tweet = problem_tweet
     consoling_tweet = solution_tweet
     
     twitt.tweet_it_all(actor, distressed_tweet, partner, consoling_tweet)
-    

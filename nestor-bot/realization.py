@@ -10,12 +10,12 @@ def allsynonyms(word, kind = NOUN):
 def realizevehicletext(vehicle):
     wrong = allsynonyms('broken', ADJECTIVE)
     brokeverb = choice(wrong)
-    return choice(("my {} is {}".format(vehicle, brokeverb),))
+    return choice(("My {} is {}".format(vehicle, brokeverb),))
 
 def realizeweapontext(weapon):
     wrong = allsynonyms('redundant', ADJECTIVE)
     brokenverbinf = choice(wrong)
-    return choice(("my {} is {}".format(weapon, brokenverbinf),))
+    return choice(("My {} is {}".format(weapon, brokenverbinf),))
 
 def realizegrouptext(group):
     wrong = allsynonyms('expel', VERB)
@@ -29,7 +29,7 @@ def realizegrouptext(group):
         expelverb2part = expelverb.split(" ")
         expelverb = conjugate(expelverb2part[0], "3sgp")
         expelverbfin = expelverb + " " + expelverb2part[1]
-    return choice(("I've been {} of {}".format(expelverbfin,group ),))
+    return choice(("I've been {} of {}".format(expelverbfin, group.lower()),))
 
 
 sadness = allsynonyms('depressed', ADJECTIVE)
@@ -43,36 +43,36 @@ def correctspaces(text):
 
 def realizetakevehicle(vehicle):
     takeword = choice(allsynonyms("borrow", VERB))
-    return "you can {} my {}!".format(takeword, vehicle.capitalize())
+    return "you can {} my {}!".format(takeword, vehicle.lower())
 
 def realizetakeweapon(vehicle):
     takeword = choice(allsynonyms("borrow", VERB))
-    return "you can {} my {}!".format(takeword, vehicle.capitalize())
+    return "you can {} my {}!".format(takeword, vehicle.lower())
 
 def realizejoingroup(group):
     joinword = choice(allsynonyms("join", VERB))
-    return "you can {} the {}!".format(joinword, group.capitalize())
+    return "you can {} the {}!".format(joinword, group.lower())
 
 def realizevehicle(sad, vehicle, friend, solution):
     texts = [realizedepression(), realizevehicletext(vehicle)]
     shuffle(texts)
-    return (correctspaces("{}: {}. {}".format(sad.title(), *texts)), 
+    return (correctspaces("{}: {}. {}.".format(sad.title(), *texts)), 
                 correctspaces("{}: {}".format(friend.title(), realizetakevehicle(solution))))
 
 def realizeweapon(sad, weapon, friend, solution):
     texts = [realizedepression(), realizeweapontext(weapon)]
     shuffle(texts)
-    return (correctspaces("{}: {}. {}".format(sad.title(), *texts)), 
+    return (correctspaces("{}: {}. {}.".format(sad.title(), *texts)), 
                 correctspaces("{}: {}".format(friend.title(), realizetakeweapon(solution))))
 
 def realizegroupmembership(sad, weapon, friend, solution):
     texts = [realizedepression(), realizegrouptext(weapon)]
     shuffle(texts)
-    return (correctspaces("{}: {}. {}".format(sad.title(), *texts)), 
+    return (correctspaces("{}: {}. {}.".format(sad.title(), *texts)), 
                 correctspaces("{}: {}".format(friend.title(), realizejoingroup(solution))))
 
 
-print realizevehicle("batman", "batmobile", "robin", "motorbike")
-print realizeweapon("obiwan", "lightsaber", "vader", "tie fighter")
-print realizegroupmembership("luke skywalker", "jedi order", "vader", "sith")
+#print realizevehicle("batman", "batmobile", "robin", "motorbike")
+#print realizeweapon("obiwan", "lightsaber", "vader", "tie fighter")
+#print realizegroupmembership("luke skywalker", "jedi order", "vader", "sith")
 
