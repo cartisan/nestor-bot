@@ -9,6 +9,7 @@ from tweeter import Tweeter
 from realization import realizevehicle
 from realization import realizeweapon
 from realization import realizegroupmembership
+import time
 
 PROBLEM_TYPES = set(PROBLEM_TYPES)
 RELATION_TYPES = set(["opponent",
@@ -34,11 +35,11 @@ def choose_actor():
     partners = []
     while not partners:
         actor = Person(choice(NOC))
-        print("bot.py: Trying if {} has enough partners."
-              .format(actor.character))
+   #     print("bot.py: Trying if {} has enough partners."
+    #          .format(actor.character))
         partners = calculate_partners(actor)
 
-    print "bot.py: Yes, he does!"
+    #print "bot.py: Yes, he does!"
     return actor
 
 
@@ -119,7 +120,7 @@ def choose_partner(actor, problem):
     if new_possible_partners:
         return choice(new_possible_partners)
     
-    print "Didn't find partner"
+#    print "Didn't find partner"
     partner = Person(choice(NOC))
     return partner
 
@@ -148,7 +149,6 @@ def generate_problem_tweet(actor, problem):
         return second_person_vehicle_weapon_breakdown(actor)
     else:
         pattern = TextPattern()
-        print "problem_tweet", actor.character, problem
         problem_text = pattern.generate_problem_text(actor, problem)
         return problem_text.format(actor.character[0],getattr(actor,problem)[0])
 
@@ -157,7 +157,7 @@ def generate_solution_tweet(actor,partner,relationship,problem):
     actor_on_twitter = "@" + Tweeter().get_twitter_name(actor.character[0])
     # Every now and then the pattern about fiction...
     if actor.fictive_status and randint(0,9)<2:
-        return "{0}: {1}, Cheer up, you're just living in fiction all along!".format(partner.character[0], actor_on_twitter)
+        return "{0}: Cheer up, you're just living in fiction all along!".format(partner.character[0])
     #print problem
     pattern = TextPattern()
     problem_text = pattern.generate_solution_text(relationship,problem)
@@ -183,7 +183,7 @@ def generate_problem_solution(actor, partner, actor_problem, partner_problem):
         sol_prob = realizegroupmembership(actor, partner, actor_problem, partner_problem)
     return sol_prob
 
-for i in range(100):
+for i in range(10):
     actor = choose_actor()
     problem = choose_problem(actor)
     partner = choose_partner(actor, problem)
@@ -193,22 +193,23 @@ for i in range(100):
     if randint(0,9) < 5 or problem == "opponent" or not getattr(partner,problem) or not getattr(actor,problem):
         problem_tweet = generate_problem_tweet(actor, problem)
         solution_tweet = generate_solution_tweet(actor,partner,"opponent",problem)
-        print "text pattern"
+        #print "text pattern"
     else:
         # or else we choose wordnet patterns
         [problem_tweet, solution_tweet] = generate_problem_solution(actor.character[0],getattr(actor,problem)[0],partner.character[0],getattr(partner,problem)[0])
-        print "realization"
+        #print "realization"
 
 
     print problem_tweet
     print solution_tweet
+    print " "
 
     # To go online, make it True!
-    tweetme = False
+    tweetme = True
     if tweetme:
         twitt = Tweeter()
         distressed_tweet = problem_tweet
         consoling_tweet = solution_tweet
         
         twitt.tweet_it_all(actor, distressed_tweet, partner, consoling_tweet)
-        
+    time.sleep(45)
