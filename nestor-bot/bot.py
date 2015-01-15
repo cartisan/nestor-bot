@@ -226,7 +226,7 @@ for i in range(TWEET_NUM):
 
 
     # With some probability we choose text pattern
-    if randint(0,5) < 0 or problem == "opponent" or not getattr(partner,problem) or not getattr(actor,problem):
+    if randint(0,9) < 3 or problem == "opponent" or not getattr(partner,problem) or not getattr(actor,problem):
         problem_tweet = generate_problem_tweet(actor, problem)
         solution_tweet = generate_solution_tweet(actor,partner,"opponent",problem)
         #print "text pattern"
