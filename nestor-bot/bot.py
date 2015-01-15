@@ -14,6 +14,7 @@ import time
 
 TWEET = True
 TWEET_NUM = 5
+TWEET_DELAY_SEC = 45
 PROBLEM_TYPES = set(PROBLEM_TYPES)
 RELATION_TYPES = set(["opponent",
                       "creator",
@@ -247,4 +248,4 @@ for i in range(TWEET_NUM):
         consoling_tweet = solution_tweet
         
         twitt.tweet_it_all(actor, distressed_tweet, partner, consoling_tweet)
-        time.sleep(45)
+        time.sleep(TWEET_DELAY_SEC)
