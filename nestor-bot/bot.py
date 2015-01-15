@@ -188,6 +188,7 @@ for i in range(100):
     problem = choose_problem(actor)
     partner = choose_partner(actor, problem)
 
+
     # With some probability we choose text pattern
     if randint(0,9) < 5 or problem == "opponent" or not getattr(partner,problem) or not getattr(actor,problem):
         problem_tweet = generate_problem_tweet(actor, problem)
@@ -210,3 +211,4 @@ for i in range(100):
         consoling_tweet = solution_tweet
         
         twitt.tweet_it_all(actor, distressed_tweet, partner, consoling_tweet)
+        
