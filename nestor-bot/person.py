@@ -1,3 +1,4 @@
+import pdb
 class Person:
     def __init__(self, d):
         for key, value in d.items():
@@ -8,10 +9,18 @@ class Person:
             if type(value) == list:
                 for v in value:
                     if v:
-                        newvalue.append(v)
-            elif type(value) == str and value:
-                newvalue.append(value)
+                        newvalue.append(v.encode('utf-8'))
+            elif type(value) == str or type(value) == unicode:
+                if value:
+                    newvalue.append(value.encode('utf-8'))
             setattr(self, k3, newvalue)
+
+        try:
+            self.character[0]
+        except:
+            pdb.set_trace() ############################## Breakpoint ##############################
+            print "person.py: No character[0] found for {}".format(self.character)
+            self.character = ['']
 
     def missing_attributes(self):
         # find missing entries:

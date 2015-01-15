@@ -182,6 +182,12 @@ def parse(path):
     return rows
 
 noc = parse(NOC)
+
+#def clean_noc():
+    #for r in noc_dirty:
+        #if r["Character"]:
+            #yield r
+#noc = list(clean_noc())
 ROWS = xlsx(pd(NOC))
 NAMES_INDEX = index(ROWS[1:], 0, unique=False)
 # ------------------------------------------------------------------------------------
