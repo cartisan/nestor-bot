@@ -26,17 +26,18 @@ def realizegrouptext(group):
         expelverb = conjugate(expelverbinf, "3sgp")
         expelverbfin = expelverb
     elif(len(expelverb.split(" ")) == 2):
+        print "auxiliary"
         expelverb2part = expelverb.split(" ")
         expelverb = conjugate(expelverb2part[0], "3sgp")
         expelverbfin = expelverb + " " + expelverb2part[1]
-    return choice(("I've been {} of {}".format(expelverbfin, group.lower()),))
+    return choice(("I've been {} from {}".format(expelverbfin, group.lower()),))
 
 
 sadness = allsynonyms('depressed', ADJECTIVE)
 def realizedepression():
     augmentative = choice(("really", ""))
     theproperty = choice(sadness)
-    return "I'm {} {}".format(augmentative, theproperty)
+    return "I'm feeling {} {}".format(augmentative, theproperty)
 
 def correctspaces(text):
     return re.sub(" +", " ", text)
