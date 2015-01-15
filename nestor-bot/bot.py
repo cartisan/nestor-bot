@@ -192,7 +192,7 @@ def generate_problem_tweet(actor, problem):
 def generate_solution_tweet(actor,partner,relationship,problem):
     # Every now and then the pattern about fiction...
     if actor.fictive_status and randint(0,9)<2:
-        return "{0}: Cheer up, you're just living in fiction all along!".format(partner.character[0])
+        return "{0}: Cheer up, you're just living in fiction anyway!".format(partner.character[0])
     #print problem
     pattern = TextPattern()
     problem_text = pattern.generate_solution_text(relationship,problem)
