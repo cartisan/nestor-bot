@@ -148,14 +148,16 @@ def generate_problem_tweet(actor, problem):
 
 
 def generate_solution_tweet(actor,partner,relationship,problem):
-    print "solution_tweet", relationship, problem
+    actor_on_twitter = "@" + Tweeter().get_twitter_name(actor.character[0])
+    # Every now and then the pattern about fiction...
+    if actor.fictive_status and randint(0,9)<2:
+        return "{0}: #{1}, Cheer up, you're just living in fiction all along!".format(partner.character[0], actor_on_twitter)
 
     pattern = TextPattern()
     problem_text = pattern.generate_solution_text(relationship,problem)
 
     partner_name = partner.character[0]
     prob = getattr(partner,problem)[0]
-    actor_on_twitter = "@" + Tweeter().get_twitter_name(actor.character[0])
 
     return problem_text.format(partner_name, actor_on_twitter, prob)
 
