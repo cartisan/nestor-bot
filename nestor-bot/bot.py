@@ -104,15 +104,21 @@ def calculate_partners(actor, problem=None):
 def choose_partner(actor, problem):
     possible_partners = calculate_partners(actor, problem)
 
+    new_possible_partners = []
+    for p in possible_partners:
+        if hasattr(p, problem):
+            new_possible_partners.append(p)
+
     #add most similar character
     #print "bot.py: Start similarity computation for actor"
     #similar_partners = semantic_similarity(actor.character[0])
 
-    print ("bot.py: num of partners is {}".format(len(possible_partners)))
+#    print ("bot.py: num of partners is {}".format(len(possible_partners)))
 
-    if possible_partners:
-        return choice(possible_partners)
-
+    if new_possible_partners:
+        return choice(new_possible_partners)
+    
+    print "Didn't find partner"
     partner = Person(choice(NOC))
     return partner
 
@@ -149,15 +155,18 @@ def generate_solution_tweet(actor,partner,relationship,problem):
     actor_on_twitter = "@" + Tweeter().get_twitter_name(actor.character[0])
     # Every now and then the pattern about fiction...
     if actor.fictive_status and randint(0,9)<2:
-        return "{0}: #{1}, Cheer up, you're just living in fiction all along!".format(partner.character[0], actor_on_twitter)
+        return "{0}: {1}, Cheer up, you're just living in fiction all along!".format(partner.character[0], actor_on_twitter)
     #print problem
     pattern = TextPattern()
     problem_text = pattern.generate_solution_text(relationship,problem)
 
     tmp = partner.character[0]
-    prob = getattr(partner,problem)[0]
+    try:
+        prob = getattr(partner,problem)[0]
+    except:
+        return "Don't worry, everything's gonna be OK!"
 
-    return problem_text.format(tmp,actor_on_twitter,prob)
+    return problem_text.format(tmp,prob)
 
 def generate_problem_solution(actor,partner,actor_problem,partner_problem):
     if(problem == "vehicle_of_choice"):
@@ -166,33 +175,35 @@ def generate_problem_solution(actor,partner,actor_problem,partner_problem):
         sol_prob = realizeweapon(actor,partner,actor_problem,partner_problem)
     elif(problem == "group_affiliation"):
         sol_prob = realizegroupmembership(actor,partner,actor_problem,partner_problem)
+    else:
+        print "Error: no such problem for Carlos code"
+        return "nubbe"
     return sol_prob
 
 
 actor = choose_actor()
 problem = choose_problem(actor)
-
-#print problem
-problem_tweet = generate_problem_tweet(actor, problem)
-
 partner = choose_partner(actor, problem)
 
-problem_2 = choose_problem(partner)
-solution_tweet = generate_solution_tweet(actor,partner,"opponent",problem)
-call_repo = generate_problem_solution(actor.character[0],getattr(actor,problem)[0],partner.character[0],getattr(partner,problem)[0])
+# With some probability we choose text pattern
+if randint(0,9) < 6 or problem == "opponent":
+    problem_tweet = generate_problem_tweet(actor, problem)
+    solution_tweet = generate_solution_tweet(actor,partner,"opponent",problem)
+    print "text pattern"
+else:
+    # or else we choose wordnet patterns
+    [problem_tweet, solution_tweet] = generate_problem_solution(actor.character[0],getattr(actor,problem)[0],partner.character[0],getattr(partner,problem)[0])
+    print "realization"
 
-problem_list = [call_repo[1],problem_tweet]
-solution_list = [call_repo[0],solution_tweet]
-
-print problem_list[1]
-print solution_list[1]
+print problem_tweet
+print solution_tweet
 
 # To go online, make it True!
 tweetme = True
 if tweetme:
     twitt = Tweeter()
-    distressed_tweet = problem_list[1]
-    consoling_tweet = solution_list[1]
+    distressed_tweet = problem_tweet
+    consoling_tweet = solution_tweet
     
     twitt.tweet_it_all(actor, distressed_tweet, partner, consoling_tweet)
     
