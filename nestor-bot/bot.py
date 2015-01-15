@@ -107,7 +107,7 @@ def choose_partner(actor, problem):
 
     new_possible_partners = []
     for p in possible_partners:
-        if hasattr(p, problem):
+        if not getattr(p, problem) == []:
             new_possible_partners.append(p)
 
     #add most similar character
@@ -166,9 +166,11 @@ def generate_solution_tweet(actor,partner,relationship,problem):
     try:
         prob = getattr(partner,problem)[0]
     except:
-        return "Don't worry, everything's gonna be OK!"
+        return "{0}: Don't worry, everything's gonna be OK!".format(partner.character[0])
 
-    return problem_text.format(tmp,prob)
+
+    prob_text = problem_text.format(tmp,"",prob)
+    return prob_text
 
 
 def generate_problem_solution(actor, partner, actor_problem, partner_problem):
@@ -181,30 +183,30 @@ def generate_problem_solution(actor, partner, actor_problem, partner_problem):
         sol_prob = realizegroupmembership(actor, partner, actor_problem, partner_problem)
     return sol_prob
 
+for i in range(100):
+    actor = choose_actor()
+    problem = choose_problem(actor)
+    partner = choose_partner(actor, problem)
 
-actor = choose_actor()
-problem = choose_problem(actor)
-partner = choose_partner(actor, problem)
-
-# With some probability we choose text pattern
-if randint(0,9) < 5 or problem == "opponent":
-    problem_tweet = generate_problem_tweet(actor, problem)
-    solution_tweet = generate_solution_tweet(actor,partner,"opponent",problem)
-    print "text pattern"
-else:
-    # or else we choose wordnet patterns
-    [problem_tweet, solution_tweet] = generate_problem_solution(actor.character[0],getattr(actor,problem)[0],partner.character[0],getattr(partner,problem)[0])
-    print "realization"
+    # With some probability we choose text pattern
+    if randint(0,9) < 5 or problem == "opponent" or not getattr(partner,problem) or not getattr(actor,problem):
+        problem_tweet = generate_problem_tweet(actor, problem)
+        solution_tweet = generate_solution_tweet(actor,partner,"opponent",problem)
+        print "text pattern"
+    else:
+        # or else we choose wordnet patterns
+        [problem_tweet, solution_tweet] = generate_problem_solution(actor.character[0],getattr(actor,problem)[0],partner.character[0],getattr(partner,problem)[0])
+        print "realization"
 
 
-print problem_tweet
-print solution_tweet
+    print problem_tweet
+    print solution_tweet
 
-# To go online, make it True!
-tweetme = False
-if tweetme:
-    twitt = Tweeter()
-    distressed_tweet = problem_tweet
-    consoling_tweet = solution_tweet
-    
-    twitt.tweet_it_all(actor, distressed_tweet, partner, consoling_tweet)
+    # To go online, make it True!
+    tweetme = False
+    if tweetme:
+        twitt = Tweeter()
+        distressed_tweet = problem_tweet
+        consoling_tweet = solution_tweet
+        
+        twitt.tweet_it_all(actor, distressed_tweet, partner, consoling_tweet)
