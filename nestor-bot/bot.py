@@ -9,6 +9,7 @@ from tweeter import Tweeter
 from realization import realizevehicle
 from realization import realizeweapon
 from realization import realizegroupmembership
+from copy import copy
 import time
 
 PROBLEM_TYPES = set(PROBLEM_TYPES)
@@ -54,8 +55,37 @@ def choose_problem(actor):
     return problem
 
 
-def partners_from_group(actor):
-    prohibited_list = [actor.character[0]]
+def partners_from_category(actor, already_found=[]):
+    prohibited_list = copy(already_found)
+    prohibited_list.append(actor.character[0])
+    partners = []
+
+    #for each row
+    for r in NOC:
+        # for each category of partner
+        for v in r["Category"]:
+            # check if one of our category fits
+            for actor_cat in actor.category:
+                if actor_cat == v:
+                    partner = create_person_from_name(r["Character"])
+                    if not partner.character[0] in prohibited_list:
+                        partners.append(partner)
+                        prohibited_list.append(partner.character[0])
+
+
+    #TODO: Identify only the important ones
+    #right now only chance decision
+    amount = min(2, len(partners))
+    relevant_partners = []
+    for i in range(amount):
+        partner = choice(partners)
+        relevant_partners.append(partner)
+    return relevant_partners
+
+
+def partners_from_group(actor, already_found=[]):
+    prohibited_list = copy(already_found)
+    prohibited_list.append(actor.character[0])
     partners = []
 
     #for each row
@@ -97,7 +127,11 @@ def calculate_partners(actor, problem=None):
             possible_partners.append(partner)
 
     if actor.group_affiliation and not problem == "group_affiliation":
-        more_peeps = partners_from_group(actor)
+        more_peeps = partners_from_group(actor, possible_partners)
+        possible_partners += more_peeps
+
+    if actor.category:
+        more_peeps = partners_from_category(actor, possible_partners)
         possible_partners += more_peeps
 
     return possible_partners
@@ -154,7 +188,6 @@ def generate_problem_tweet(actor, problem):
 
 
 def generate_solution_tweet(actor,partner,relationship,problem):
-    actor_on_twitter = "@" + Tweeter().get_twitter_name(actor.character[0])
     # Every now and then the pattern about fiction...
     if actor.fictive_status and randint(0,9)<2:
         return "{0}: Cheer up, you're just living in fiction all along!".format(partner.character[0])
@@ -183,7 +216,7 @@ def generate_problem_solution(actor, partner, actor_problem, partner_problem):
         sol_prob = realizegroupmembership(actor, partner, actor_problem, partner_problem)
     return sol_prob
 
-for i in range(10):
+for i in range(50):
     actor = choose_actor()
     problem = choose_problem(actor)
     partner = choose_partner(actor, problem)
@@ -205,11 +238,11 @@ for i in range(10):
     print " "
 
     # To go online, make it True!
-    tweetme = True
+    tweetme = False
     if tweetme:
         twitt = Tweeter()
         distressed_tweet = problem_tweet
         consoling_tweet = solution_tweet
         
         twitt.tweet_it_all(actor, distressed_tweet, partner, consoling_tweet)
-    time.sleep(45)
+        time.sleep(45)
